@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technology Portfolio — Executive Scorecard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F3;
+    --surface: #FFFFFF;
+    --surface-2: #F0EEE9;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.13);
+    --text-primary: #1A1916;
+    --text-secondary: #6B6860;
+    --text-tertiary: #9C9A94;
+    --green: #3B6D11;
+    --green-bg: #EAF3DE;
+    --green-accent: #639922;
+    --amber: #854F0B;
+    --amber-bg: #FAEEDA;
+    --amber-accent: #BA7517;
+    --red: #A32D2D;
+    --red-bg: #FCEBEB;
+    --red-accent: #E24B4A;
+    --blue-accent: #378ADD;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.1s forwards;
+  }
+
+  .header-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .header-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  /* Initiative cards */
+  .scorecard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .initiative-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .initiative-card:nth-child(1) { animation-delay: 0.15s; }
+  .initiative-card:nth-child(2) { animation-delay: 0.25s; }
+  .initiative-card:nth-child(3) { animation-delay: 0.35s; }
+
+  .card-accent {
+    height: 3px;
+    width: 100%;
+  }
+
+  .accent-green { background: var(--green-accent); }
+  .accent-amber { background: var(--amber-accent); }
+  .accent-red { background: var(--red-accent); }
+
+  .card-top {
+    padding: 16px 18px 14px;
+  }
+
+  .card-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .rag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .rag-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .pill-green { background: var(--green-bg); color: var(--green); }
+  .pill-green .rag-dot { background: var(--green-accent); }
+  .pill-amber { background: var(--amber-bg); color: var(--amber); }
+  .pill-amber .rag-dot { background: var(--amber-accent); }
+  .pill-red { background: var(--red-bg); color: var(--red); }
+  .pill-red .rag-dot { background: var(--red-accent); }
+
+  .card-divider { height: 0.5px; background: var(--border); }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat {
+    padding: 12px 18px;
+    border-right: 0.5px solid var(--border);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  /* Bottom row */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .bottom-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .bottom-card:nth-child(1) { animation-delay: 0.45s; }
+  .bottom-card:nth-child(2) { animation-delay: 0.55s; }
+
+  .bottom-card-header {
+    padding: 12px 18px;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .bottom-card-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .blocker-total {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--red);
+    background: var(--red-bg);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .blocker-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-bottom: 0.5px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .blocker-row:last-child { border-bottom: none; }
+  .blocker-row:hover { background: var(--surface-2); }
+
+  .blocker-indicator {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--red-accent);
+    flex-shrink: 0;
+  }
+
+  .blocker-name {
+    font-size: 12px;
+    color: var(--text-primary);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .blocker-tag {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    background: var(--surface-2);
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .blocker-age {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 500;
+    min-width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Throughput */
+  .throughput-body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .throughput-stat {
+    padding: 14px 18px;
+    border-right: 0.5px solid var(--border);
+  }
+
+  .throughput-stat:last-child { border-right: none; }
+
+  .throughput-team {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+
+  .throughput-value {
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text-primary);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .throughput-sub {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+
+  .throughput-bar-wrap {
+    margin-top: 8px;
+    height: 3px;
+    background: var(--surface-2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .throughput-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--green-accent);
+  }
+
+  /* Last updated footer */
+  .footer {
+    margin-top: 12px;
+    text-align: right;
+    opacity: 0;
+    animation: fadeUp 0.4s ease 0.65s forwards;
+  }
+
+  .footer-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-tertiary);
+  }
+
+  /* Edit hint */
+  .edit-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .edit-hint:hover { background: var(--border); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-title">Technology portfolio — executive scorecard</span>
+  <span class="header-date" id="today-date"></span>
+</div>
+
+<div class="scorecard">
+
+  <div class="initiative-card">
+    <div class="card-accent accent-green"></div>
+    <div class="card-top">
+      <div class="card-eyebrow">Initiative 01</div>
+      <div class="card-title">Technology delivery teams</div>
+      <div class="rag-pill pill-green">
+        <div class="rag-dot"></div>
+        On track
+      </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-stats">
+      <div class="stat">
+        <div class="stat-value" id="ado-blocked">4</div>
+        <div class="stat-label">Blocked tickets</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="ado-done">72</div>
+        <div class="stat-label">Done this month</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="initiative-card">
+    <div class="card-accent accent-amber"></div>
+    <div class="card-top">
+      <div class="card-eyebrow">Initiative 02</div>
+      <div class="card-title">Cloud migration</div>
+      <div class="rag-pill pill-amber">
+        <div class="rag-dot"></div>
+        Needs attention
+      </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-stats">
+      <div class="stat">
+        <div class="stat-value" id="migration-phase">Phase 3</div>
+        <div class="stat-label">Active phase</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="migration-progress">52%</div>
+        <div class="stat-label">Phase complete</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="initiative-card">
+    <div class="card-accent accent-green"></div>
+    <div class="card-top">
+      <div class="card-eyebrow">Initiative 03</div>
+      <div class="card-title">Technology OKRs</div>
+      <div class="rag-pill pill-green">
+        <div class="rag-dot"></div>
+        On track
+      </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-stats">
+      <div class="stat">
+        <div class="stat-value" id="okr-progress">68%</div>
+        <div class="stat-label">Avg. progress</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="okr-atrisk">10</div>
+        <div class="stat-label">Need attention</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-row">
+
+  <div class="bottom-card">
+    <div class="bottom-card-header">
+      <span class="bottom-card-title">Active blockers — all initiatives</span>
+      <span class="blocker-total" id="blocker-total">6</span>
+    </div>
+    <div id="blocker-list">
+      <div class="blocker-row">
+        <div class="blocker-indicator"></div>
+        <span class="blocker-name">API auth dependency unresolved</span>
+        <span class="blocker-tag">Initiatives</span>
+        <span class="blocker-age">18d</span>
+      </div>
+      <div class="blocker-row">
+        <div class="blocker-indicator"></div>
+        <span class="blocker-name">Vendor approval pending</span>
+        <span class="blocker-tag">Migration</span>
+        <span class="blocker-age">12d</span>
+      </div>
+      <div class="blocker-row">
+        <div class="blocker-indicator"></div>
+        <span class="blocker-name">Network segmentation decision</span>
+        <span class="blocker-tag">Migration</span>
+        <span class="blocker-age">9d</span>
+      </div>
+      <div class="blocker-row">
+        <div class="blocker-indicator"></div>
+        <span class="blocker-name">Data pipeline env. config</span>
+        <span class="blocker-tag">M&E</span>
+        <span class="blocker-age">7d</span>
+      </div>
+      <div class="blocker-row">
+        <div class="blocker-indicator"></div>
+        <span class="blocker-name">Legacy auth token migration</span>
+        <span class="blocker-tag">Foundations</span>
+        <span class="blocker-age">5d</span>
+      </div>
+      <div class="blocker-row">
+        <div class="blocker-indicator"></div>
+        <span class="blocker-name">Phase 3 sign-off outstanding</span>
+        <span class="blocker-tag">Migration</span>
+        <span class="blocker-age">3d</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-card">
+    <div class="bottom-card-header">
+      <span class="bottom-card-title">Team throughput — last 30 days</span>
+    </div>
+    <div class="throughput-body">
+      <div class="throughput-stat">
+        <div class="throughput-team">Foundations</div>
+        <div class="throughput-value" id="t-foundations">24</div>
+        <div class="throughput-sub">tickets done</div>
+        <div class="throughput-bar-wrap">
+          <div class="throughput-bar" style="width: 67%"></div>
+        </div>
+      </div>
+      <div class="throughput-stat">
+        <div class="throughput-team">Initiatives</div>
+        <div class="throughput-value" id="t-initiatives">31</div>
+        <div class="throughput-sub">tickets done</div>
+        <div class="throughput-bar-wrap">
+          <div class="throughput-bar" style="width: 86%"></div>
+        </div>
+      </div>
+      <div class="throughput-stat">
+        <div class="throughput-team">M&E</div>
+        <div class="throughput-value" id="t-me">17</div>
+        <div class="throughput-sub">tickets done</div>
+        <div class="throughput-bar-wrap">
+          <div class="throughput-bar" style="width: 47%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span class="footer-text">Last updated: <span id="last-updated"></span> · Update values directly in this file</span>
+</div>
+
+<script>
+  const now = new Date();
+  const fmt = { month: 'short', day: 'numeric', year: 'numeric' };
+  document.getElementById('today-date').textContent = now.toLocaleDateString('en-US', fmt);
+  document.getElementById('last-updated').textContent = now.toLocaleDateString('en-US', fmt);
+</script>
+
+</body>
+</html>
